@@ -90,13 +90,14 @@ function erasePiece() {
       break;
     }
     let tableRow = table.children[y - counter];
-    counter++;
     for (let j = 0; j < piece.shape[i].length; j++) {
       let tableCell = tableRow.children[j + x];
       if (piece.shape[i][j]) {
         tableCell.classList.remove(piece.color);
+        game.board[y - counter][j + x] = 0;
       }
     }
+    counter++;
   }
 }
 
@@ -110,13 +111,14 @@ function drawPiece() {
       break;
     }
     let tableRow = table.children[y - counter];
-    counter++;
     for (let j = 0; j < piece.shape[i].length; j++) {
       let tableCell = tableRow.children[j + x];
       if (piece.shape[i][j]) {
         tableCell.classList.add(piece.color);
+        game.board[y - counter][j + x] = 1;
       }
     }
+    counter++;
   }
   checkBelow();
 }
