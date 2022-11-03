@@ -1,6 +1,7 @@
 // Game State and Classes
 let game = {
   running: false,
+  speed: 1500,
   width: 15,
   height: 30,
   score: 0,
@@ -62,12 +63,25 @@ for (let i = 0; i < game.height; i++) {
 }
 
 window.addEventListener('keypress', (e) => {
+  console.log(e.key);
   let piece = game.currentPiece;
   switch (e.key) {
     case 'a':
       erasePiece();
       piece.position.x--;
       drawPiece();
+      break;
+    case 'd':
+      let rightPosition = piece.position.x + piece.shape[0].length;
+      if (rightPosition >= game.board[0].length) {
+        break;
+      }
+      erasePiece();
+      piece.position.x++;
+      drawPiece();
+      break;
+    case 's':
+      break;
   }
 });
 
@@ -87,7 +101,7 @@ setInterval(() => {
       selectPiece();
     }
   }
-}, 100);
+}, game.speed);
 
 // Game Functions
 function selectPiece() {
@@ -144,7 +158,6 @@ function drawPiece() {
 
 function useGravity() {
   let piece = game.currentPiece;
-  piece.position.x;
   piece.position.y++;
 }
 
