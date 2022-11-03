@@ -77,7 +77,7 @@ function selectPiece() {
     position: { x: Math.floor(game.width / 2) - 1, y: -1 },
     color: colors[Math.floor(Math.random() * 3)],
   };
-  game.nextPiece = shapes[0];
+  game.nextPiece = shapes[Math.floor(Math.random() * 3)];
 }
 
 function erasePiece() {
