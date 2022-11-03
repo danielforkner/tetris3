@@ -1,11 +1,20 @@
 let board = document.getElementById('board');
 let game = {
   running: false,
-  width: 8,
+  width: 15,
   height: 30,
   score: 0,
   board: [],
 };
+let playBtn = document.getElementById('playBtn');
+playBtn.addEventListener('click', () => {
+  game.running = !game.running;
+  if (game.running) {
+    playBtn.innerText = 'pause';
+  } else {
+    playBtn.innerText = 'Play';
+  }
+});
 
 for (let i = 0; i < game.height; i++) {
   game.board.push([]);
@@ -18,4 +27,9 @@ for (let i = 0; i < game.height; i++) {
   }
   board.appendChild(row);
 }
-console.log(game.board);
+
+setInterval(() => {
+  if (game.running) {
+    console.log('running...');
+  }
+}, 500);
