@@ -63,6 +63,8 @@ setInterval(() => {
     if (!game.currentPiece) {
       selectPiece();
     }
+    erasePiece();
+    useGravity();
     drawPiece();
   }
 }, 500);
@@ -71,24 +73,47 @@ setInterval(() => {
 function selectPiece() {
   game.currentPiece = {
     shape: game.nextPiece,
-    position: { x: Math.floor(game.width / 2) - 1, y: 0 },
+    position: { x: Math.floor(game.width / 2) - 1, y: -1 },
     color: 'red',
   };
   game.nextPiece = shapes[0];
 }
 
-function erasePiece() {}
+function erasePiece() {
+  let piece = game.currentPiece;
+  let x = piece.position.x;
+  let y = piece.position.y;
+  let counter = 0;
+  for (let i = piece.shape.length - 1; i >= 0; i--) {
+    if (y - counter < 0) {
+      break;
+    }
+    let tableRow = table.children[y - counter];
+    counter++;
+    for (let j = 0; j < piece.shape[i].length; j++) {
+      let tableCell = tableRow.children[j + x];
+      if (piece.shape[i][j]) {
+        tableCell.classList.remove(piece.color);
+      }
+    }
+  }
+}
 
 function drawPiece() {
   let piece = game.currentPiece;
   let x = piece.position.x;
   let y = piece.position.y;
-  for (let i = 0; i < piece.shape.length; i++) {
-    let tableRow = table.children[i];
+  let counter = 0;
+  for (let i = piece.shape.length - 1; i >= 0; i--) {
+    if (y - counter < 0) {
+      break;
+    }
+    let tableRow = table.children[y - counter];
+    counter++;
     for (let j = 0; j < piece.shape[i].length; j++) {
       let tableCell = tableRow.children[j + x];
       if (piece.shape[i][j]) {
-        tableCell.classList.add('red');
+        tableCell.classList.add(piece.color);
       }
     }
   }
@@ -96,15 +121,6 @@ function drawPiece() {
 
 function useGravity() {
   let piece = game.currentPiece;
-  let x = piece.position.x;
-  let y = piece.position.y++;
-  for (let i = 0; i < piece.shape.length; i++) {
-    let pieceRow = piece.shape[i];
-    console.log();
-    let cells = boardRows[i + y].children;
-    for (let j = 0; j < pieceRow.length; j++) {
-      boardRows[i + y - 2].children[x + j].classList.remove(piece.color);
-      cells[x + j].classList.add(piece.color);
-    }
-  }
+  piece.position.x;
+  piece.position.y++;
 }
