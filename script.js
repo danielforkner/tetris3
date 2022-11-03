@@ -5,33 +5,12 @@ let game = {
   height: 30,
   score: 0,
   board: [],
+  currentPiece: false,
+  nextPiece: [
+    [1, 1],
+    [1, 1],
+  ],
 };
-
-// class Piece {
-//   constructor(shape, color) {
-//     (this.shape = shape), (this.color = color), (this.x = game.width / 2);
-//     this.y = 0;
-//   }
-// }
-
-// let shapes = {
-//   square: [
-//     [1, 1],
-//     [1, 1],
-//   ],
-//   leftL: [
-//     [0, 1],
-//     [0, 1],
-//     [0, 1],
-//     [1, 1],
-//   ],
-//   rightL: [
-//     [1, 0],
-//     [1, 0],
-//     [1, 0],
-//     [1, 1],
-//   ],
-// };
 
 let shapes = [
   [
@@ -53,7 +32,8 @@ let shapes = [
 ];
 
 // DOM Elements
-let board = document.getElementById('board');
+let table = document.getElementById('board');
+let boardRows = board.children;
 let playBtn = document.getElementById('playBtn');
 playBtn.addEventListener('click', () => {
   game.running = !game.running;
@@ -74,12 +54,57 @@ for (let i = 0; i < game.height; i++) {
     cell.classList.add('cell');
     row.appendChild(cell);
   }
-  board.appendChild(row);
+  table.appendChild(row);
 }
 
 // Tick
 setInterval(() => {
   if (game.running) {
-    console.log('running...');
+    if (!game.currentPiece) {
+      selectPiece();
+    }
+    drawPiece();
   }
 }, 500);
+
+// Game Functions
+function selectPiece() {
+  game.currentPiece = {
+    shape: game.nextPiece,
+    position: { x: Math.floor(game.width / 2) - 1, y: 0 },
+    color: 'red',
+  };
+  game.nextPiece = shapes[0];
+}
+
+function erasePiece() {}
+
+function drawPiece() {
+  let piece = game.currentPiece;
+  let x = piece.position.x;
+  let y = piece.position.y;
+  for (let i = 0; i < piece.shape.length; i++) {
+    let tableRow = table.children[i];
+    for (let j = 0; j < piece.shape[i].length; j++) {
+      let tableCell = tableRow.children[j + x];
+      if (piece.shape[i][j]) {
+        tableCell.classList.add('red');
+      }
+    }
+  }
+}
+
+function useGravity() {
+  let piece = game.currentPiece;
+  let x = piece.position.x;
+  let y = piece.position.y++;
+  for (let i = 0; i < piece.shape.length; i++) {
+    let pieceRow = piece.shape[i];
+    console.log();
+    let cells = boardRows[i + y].children;
+    for (let j = 0; j < pieceRow.length; j++) {
+      boardRows[i + y - 2].children[x + j].classList.remove(piece.color);
+      cells[x + j].classList.add(piece.color);
+    }
+  }
+}
