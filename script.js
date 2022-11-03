@@ -1,4 +1,4 @@
-let board = document.getElementById('board');
+// Game State and Classes
 let game = {
   running: false,
   width: 15,
@@ -6,6 +6,54 @@ let game = {
   score: 0,
   board: [],
 };
+
+// class Piece {
+//   constructor(shape, color) {
+//     (this.shape = shape), (this.color = color), (this.x = game.width / 2);
+//     this.y = 0;
+//   }
+// }
+
+// let shapes = {
+//   square: [
+//     [1, 1],
+//     [1, 1],
+//   ],
+//   leftL: [
+//     [0, 1],
+//     [0, 1],
+//     [0, 1],
+//     [1, 1],
+//   ],
+//   rightL: [
+//     [1, 0],
+//     [1, 0],
+//     [1, 0],
+//     [1, 1],
+//   ],
+// };
+
+let shapes = [
+  [
+    [1, 1],
+    [1, 1],
+  ],
+  [
+    [0, 1],
+    [0, 1],
+    [0, 1],
+    [1, 1],
+  ],
+  [
+    [1, 0],
+    [1, 0],
+    [1, 0],
+    [1, 1],
+  ],
+];
+
+// DOM Elements
+let board = document.getElementById('board');
 let playBtn = document.getElementById('playBtn');
 playBtn.addEventListener('click', () => {
   game.running = !game.running;
@@ -16,6 +64,7 @@ playBtn.addEventListener('click', () => {
   }
 });
 
+// Create Game Boards
 for (let i = 0; i < game.height; i++) {
   game.board.push([]);
   let row = document.createElement('tr');
@@ -28,6 +77,7 @@ for (let i = 0; i < game.height; i++) {
   board.appendChild(row);
 }
 
+// Tick
 setInterval(() => {
   if (game.running) {
     console.log('running...');
