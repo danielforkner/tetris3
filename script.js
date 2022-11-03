@@ -67,7 +67,7 @@ setInterval(() => {
     useGravity();
     drawPiece();
   }
-}, 500);
+}, 100);
 
 // Game Functions
 function selectPiece() {
@@ -120,7 +120,21 @@ function drawPiece() {
 }
 
 function useGravity() {
+  if (!checkBottom()) {
+    let piece = game.currentPiece;
+    piece.position.x;
+    piece.position.y++;
+  } else {
+    console.log('bottom!');
+    selectPiece();
+  }
+}
+
+function checkBottom() {
   let piece = game.currentPiece;
-  piece.position.x;
-  piece.position.y++;
+  let y = piece.position.y;
+  if (y >= game.board.length - 1) {
+    return true;
+  }
+  return false;
 }
