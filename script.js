@@ -117,24 +117,20 @@ function drawPiece() {
       }
     }
   }
+  checkBottom();
 }
 
 function useGravity() {
-  if (!checkBottom()) {
-    let piece = game.currentPiece;
-    piece.position.x;
-    piece.position.y++;
-  } else {
-    console.log('bottom!');
-    selectPiece();
-  }
+  let piece = game.currentPiece;
+  piece.position.x;
+  piece.position.y++;
 }
 
 function checkBottom() {
   let piece = game.currentPiece;
   let y = piece.position.y;
   if (y >= game.board.length - 1) {
-    return true;
+    selectPiece();
   }
   return false;
 }
