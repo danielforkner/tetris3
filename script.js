@@ -118,7 +118,7 @@ function drawPiece() {
       }
     }
   }
-  checkBottom();
+  checkBelow();
 }
 
 function useGravity() {
@@ -127,11 +127,21 @@ function useGravity() {
   piece.position.y++;
 }
 
-function checkBottom() {
+function checkBelow() {
   let piece = game.currentPiece;
+  let bottomRow = piece.shape[piece.shape.length - 1];
+  let x = piece.position.x;
   let y = piece.position.y;
   if (y >= game.board.length - 1) {
     selectPiece();
+    return;
   }
-  return false;
+  if (bottomRow[0] && game.board[y + 1][x]) {
+    selectPiece();
+    return;
+  }
+  if (bottomRow[1] && game.board[y + 1][x + 1]) {
+    selectPiece();
+    return;
+  }
 }
