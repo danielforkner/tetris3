@@ -66,6 +66,12 @@ setInterval(() => {
     erasePiece();
     useGravity();
     drawPiece();
+    if (checkBelow() && checkTop()) {
+      console.log('you lose');
+      game.running = false;
+    } else if (checkBelow()) {
+      selectPiece();
+    }
   }
 }, 100);
 
@@ -120,7 +126,6 @@ function drawPiece() {
     }
     counter++;
   }
-  checkBelow();
 }
 
 function useGravity() {
@@ -135,15 +140,23 @@ function checkBelow() {
   let x = piece.position.x;
   let y = piece.position.y;
   if (y >= game.board.length - 1) {
-    selectPiece();
-    return;
+    return true;
   }
   if (bottomRow[0] && game.board[y + 1][x]) {
-    selectPiece();
-    return;
+    return true;
   }
   if (bottomRow[1] && game.board[y + 1][x + 1]) {
-    selectPiece();
-    return;
+    return true;
   }
+  return false;
+}
+
+function checkTop() {
+  let piece = game.currentPiece;
+  let y = piece.position.y;
+  // check if the top row of the piece is above the ceiling
+  if (y - piece.shape.length < 0) {
+    return true;
+  }
+  return false;
 }
