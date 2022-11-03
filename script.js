@@ -29,6 +29,10 @@ let shapes = [
     [1, 0],
     [1, 1],
   ],
+  [
+    [0, 1, 0],
+    [1, 1, 1],
+  ],
 ];
 
 // DOM Elements
@@ -57,6 +61,16 @@ for (let i = 0; i < game.height; i++) {
   table.appendChild(row);
 }
 
+window.addEventListener('keypress', (e) => {
+  let piece = game.currentPiece;
+  switch (e.key) {
+    case 'a':
+      erasePiece();
+      piece.position.x--;
+      drawPiece();
+  }
+});
+
 // Tick
 setInterval(() => {
   if (game.running) {
@@ -83,7 +97,7 @@ function selectPiece() {
     position: { x: Math.floor(game.width / 2) - 1, y: -1 },
     color: colors[Math.floor(Math.random() * 3)],
   };
-  game.nextPiece = shapes[Math.floor(Math.random() * 3)];
+  game.nextPiece = shapes[Math.floor(Math.random() * shapes.length)];
 }
 
 function erasePiece() {
