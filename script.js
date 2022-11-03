@@ -71,10 +71,11 @@ setInterval(() => {
 
 // Game Functions
 function selectPiece() {
+  let colors = ['red', 'blue', 'green'];
   game.currentPiece = {
     shape: game.nextPiece,
     position: { x: Math.floor(game.width / 2) - 1, y: -1 },
-    color: 'red',
+    color: colors[Math.floor(Math.random() * 3)],
   };
   game.nextPiece = shapes[0];
 }
