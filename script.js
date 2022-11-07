@@ -1,18 +1,23 @@
 // GAME STATE
-let game = {
+const colors = ['red', 'purple', 'yellow', 'green', 'orange'];
+
+const game = {
   playing: false,
   timer: 0,
   currentPiece: [
     [1, 1],
     [1, 1],
   ],
+  // refactor this
+  currentColor: colors[Math.floor(Math.random() * colors.length)],
   positionY: -2,
+  positionX: 0,
 };
 
 // DOM Elements
-let playBtn = document.getElementById('play');
-let timer = document.getElementById('timer');
-let table = document.getElementById('table');
+const playBtn = document.getElementById('play');
+const timer = document.getElementById('timer');
+const table = document.getElementById('table');
 
 playBtn.addEventListener('click', function () {
   game.playing = !game.playing;
@@ -48,7 +53,7 @@ function drawPiece() {
     for (let j = 0; j < piece[i].length; j++) {
       let cell = document.getElementById(j + '-' + (i + game.positionY));
       if (cell) {
-        cell.classList.add('red');
+        cell.classList.add(game.currentColor);
       }
     }
   }
@@ -65,7 +70,7 @@ function removePiece() {
     for (let j = 0; j < piece[i].length; j++) {
       let cell = document.getElementById(j + '-' + (i + game.positionY));
       if (cell) {
-        cell.classList.remove('red');
+        cell.className = '';
       }
     }
   }
@@ -73,9 +78,25 @@ function removePiece() {
 
 function checkBottom() {
   let tableBottom = table.children.length - 1;
-  let pieceBottom = game.currentPiece.length - 1;
-  if (game.positionY + pieceBottom === tableBottom) {
+  let pieceBottom = game.currentPiece.length - 1 + game.positionY;
+  // check bottom of table
+  if (pieceBottom === tableBottom) {
+    // refactor this
     game.positionY = -2;
+    game.currentColor = colors[Math.floor(Math.random() * colors.length)];
+    return;
+  }
+  // check piece below
+  for (let i = 0; i < game.currentPiece.length; i++) {
+    if (
+      document.getElementById(game.positionX + '-' + (pieceBottom + 1))
+        .classList.length
+    ) {
+      // refactor this
+      game.positionY = -2;
+      game.currentColor = colors[Math.floor(Math.random() * colors.length)];
+      return;
+    }
   }
 }
 
@@ -86,4 +107,4 @@ setInterval(function () {
   removePiece();
   invokeGravity();
   drawPiece();
-}, 500);
+}, 100);
