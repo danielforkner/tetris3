@@ -1,5 +1,10 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 td {
-    border: 1px solid black;
+    border: .25px solid black;
     height: 10px;
     width: 10px;
 }
