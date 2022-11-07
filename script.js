@@ -1,7 +1,7 @@
 // Game State and Classes
 let game = {
   running: false,
-  speed: 1500,
+  speed: 250,
   width: 15,
   height: 30,
   score: 0,
@@ -62,16 +62,20 @@ for (let i = 0; i < game.height; i++) {
   table.appendChild(row);
 }
 
-window.addEventListener('keypress', (e) => {
-  console.log(e.key);
+window.addEventListener('keydown', (e) => {
+  console.log(e);
   let piece = game.currentPiece;
   switch (e.key) {
-    case 'a':
+    case 'a' || 'ArrowRight':
+      let leftPosition = piece.position.x;
+      if (leftPosition <= 0) {
+        break;
+      }
       erasePiece();
       piece.position.x--;
       drawPiece();
       break;
-    case 'd':
+    case 'd' || 'ArrowLeft':
       let rightPosition = piece.position.x + piece.shape[0].length;
       if (rightPosition >= game.board[0].length) {
         break;
@@ -80,7 +84,7 @@ window.addEventListener('keypress', (e) => {
       piece.position.x++;
       drawPiece();
       break;
-    case 's':
+    case 's' || 'ArrowDown':
       break;
   }
 });
