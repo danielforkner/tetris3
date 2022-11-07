@@ -45,15 +45,6 @@ const playBtn = document.getElementById('play');
 const timer = document.getElementById('timer');
 const table = document.getElementById('table');
 
-playBtn.addEventListener('click', function () {
-  game.playing = !game.playing;
-  if (game.playing) {
-    playBtn.innerText = 'Pause';
-  } else {
-    playBtn.innerText = 'Start';
-  }
-});
-
 // Game Board
 for (let i = 0; i < 30; i++) {
   let row = document.createElement('tr');
@@ -77,7 +68,9 @@ function drawPiece() {
   let piece = game.currentPiece;
   for (let i = 0; i < piece.length; i++) {
     for (let j = 0; j < piece[i].length; j++) {
-      let cell = document.getElementById(j + '-' + (i + game.positionY));
+      let cell = document.getElementById(
+        j + game.positionX + '-' + (i + game.positionY)
+      );
       if (cell && game.currentPiece[i][j]) {
         cell.classList.add(game.currentColor);
       }
@@ -100,7 +93,9 @@ function removePiece() {
   let piece = game.currentPiece;
   for (let i = 0; i < piece.length; i++) {
     for (let j = 0; j < piece[i].length; j++) {
-      let cell = document.getElementById(j + '-' + (i + game.positionY));
+      let cell = document.getElementById(
+        j + game.positionX + '-' + (i + game.positionY)
+      );
       if (cell) {
         cell.className = '';
       }
@@ -136,6 +131,35 @@ function checkBottom() {
     }
   }
 }
+
+// Event Listeners
+playBtn.addEventListener('click', function () {
+  game.playing = !game.playing;
+  if (game.playing) {
+    playBtn.innerText = 'Pause';
+  } else {
+    playBtn.innerText = 'Start';
+  }
+});
+
+window.addEventListener('keydown', (e) => {
+  let piece = game.currentPiece;
+  if (e.key === 'a' || e.key === 'ArrowLeft') {
+    removePiece();
+    game.positionX--;
+    drawPiece();
+  }
+  if (e.key === 'd' || e.key === 'ArrowRight') {
+    removePiece();
+    game.positionX++;
+    drawPiece();
+  }
+  if (e.key === 's' || e.key === 'ArrowDown') {
+    removePiece();
+    invokeGravity();
+    drawPiece();
+  }
+});
 
 // Tick
 setInterval(function () {
