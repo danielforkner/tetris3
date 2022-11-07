@@ -6,7 +6,7 @@ let game = {
     [1, 1],
     [1, 1],
   ],
-  positionY: 0,
+  positionY: -2,
 };
 
 // DOM Elements
@@ -46,11 +46,13 @@ function drawPiece() {
   let piece = game.currentPiece;
   for (let i = 0; i < piece.length; i++) {
     for (let j = 0; j < piece[i].length; j++) {
-      document
-        .getElementById(j + '-' + (i + game.positionY))
-        .classList.add('red');
+      let cell = document.getElementById(j + '-' + (i + game.positionY));
+      if (cell) {
+        cell.classList.add('red');
+      }
     }
   }
+  checkBottom();
 }
 
 function invokeGravity() {
@@ -62,8 +64,18 @@ function removePiece() {
   for (let i = 0; i < piece.length; i++) {
     for (let j = 0; j < piece[i].length; j++) {
       let cell = document.getElementById(j + '-' + (i + game.positionY));
-      cell.classList.remove('red');
+      if (cell) {
+        cell.classList.remove('red');
+      }
     }
+  }
+}
+
+function checkBottom() {
+  let tableBottom = table.children.length - 1;
+  let pieceBottom = game.currentPiece.length - 1;
+  if (game.positionY + pieceBottom === tableBottom) {
+    game.positionY = -2;
   }
 }
 
@@ -74,4 +86,4 @@ setInterval(function () {
   removePiece();
   invokeGravity();
   drawPiece();
-}, 1000);
+}, 500);
