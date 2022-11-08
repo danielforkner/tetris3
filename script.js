@@ -44,6 +44,7 @@ const game = {
 const playBtn = document.getElementById('play');
 const timer = document.getElementById('timer');
 const table = document.getElementById('table');
+const loseTxt = document.getElementById('lose');
 
 // Game Board
 for (let i = 0; i < 30; i++) {
@@ -76,7 +77,14 @@ function drawPiece() {
       }
     }
   }
-  checkBottom();
+  let atBottom = checkBottom();
+  let atTop = checkTop();
+  if (atBottom && atTop) {
+    game.playing = false;
+    loseTxt.innerText = 'YOU LOSE';
+  } else if (atBottom) {
+    selectNewPiece();
+  }
 }
 
 function invokeGravity() {
@@ -109,8 +117,7 @@ function checkBottom() {
   let pieceBottom = piece.length - 1 + game.positionY;
   // check bottom of table
   if (pieceBottom === tableBottom) {
-    selectNewPiece();
-    return;
+    return true;
   }
   // check piece below
   for (let i = 0; i < piece.length; i++) {
@@ -124,12 +131,19 @@ function checkBottom() {
         if (
           document.getElementById(beneathX + '-' + beneathY).classList.length
         ) {
-          selectNewPiece();
-          return;
+          return true;
         }
       }
     }
   }
+  return false;
+}
+
+function checkTop() {
+  if (game.positionY < 0) {
+    return true;
+  }
+  return false;
 }
 
 // Event Listeners
